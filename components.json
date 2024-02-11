@@ -7,11 +7,12 @@
     "config": "tailwind.config.ts",
     "css": "src/styles/globals.css",
     "baseColor": "zinc",
-    "cssVariables": true,
+    "cssVariables": false,
     "prefix": ""
   },
   "aliases": {
-    "components": "@peaktown/ui",
-    "utils": "@peaktown/ui/utils/cn"
+    "components": "@peaktown/",
+    "utils": "@peaktown/components/utils/cn",
+    "ui": "@peaktown/components"
   }
 }
