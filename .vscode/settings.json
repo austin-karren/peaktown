@@ -1,0 +1,11 @@
+{
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    // useRouter should be imported from 'next/navigation'
+    "next/router.d.ts",
+    "next/dist/client/router.d.ts",
+
+    // Prefer import from UI library wrappers
+    "next/link.d.ts",
+    "next/dist/client/link.d.ts"
+  ]
+}

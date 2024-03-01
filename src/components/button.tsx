@@ -61,12 +61,6 @@ const buttonVariants = cva(
           "before:data-[disabled]:shadow-none after:data-[disabled]:shadow-none",
         ],
         outline: [
-          // Base
-          "border-zinc-950/10 text-zinc-950 data-[active]:bg-zinc-950/[2.5%] data-[hover]:bg-zinc-950/[2.5%]",
-
-          // Dark mode
-          "dark:border-white/15 dark:text-white dark:[--btn-bg:transparent] dark:data-[active]:bg-white/5 dark:data-[hover]:bg-white/5",
-
           // Icon
           "[--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)]",
         ],
@@ -89,13 +83,13 @@ const buttonVariants = cva(
           "px-[calc(theme(spacing[3])-1px)] py-[calc(theme(spacing[2])-1px)] sm:px-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-xs/6",
         ],
         lg: [
-          "px-[calc(theme(spacing[4])-1px)] py-[calc(theme(spacing[3])-1px)] sm:px-[calc(theme(spacing[4.5])-1px)] sm:py-[calc(theme(spacing[3.5])-1px)] sm:text-base/6",
+          "px-[calc(theme(spacing[4])-1px)] py-[calc(theme(spacing[3])-1px)] sm:px-[calc(theme(spacing[4])-1px)] sm:py-[calc(theme(spacing[3.5])-1px)] sm:text-base/6",
         ],
         icon: [
           "px-[calc(theme(spacing[2.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing[2])-1px)] sm:py-[calc(theme(spacing[2])-1px)] sm:text-xs/6",
         ],
       },
-      colors: {
+      color: {
         "dark/zinc": [
           "text-white [--btn-bg:theme(colors.zinc.900)] [--btn-border:theme(colors.zinc.950/90%)] [--btn-hover-overlay:theme(colors.white/10%)]",
           "dark:text-white dark:[--btn-bg:theme(colors.zinc.600)] dark:[--btn-hover-overlay:theme(colors.white/5%)]",
@@ -195,12 +189,34 @@ const buttonVariants = cva(
           "[--btn-icon:theme(colors.rose.300)] data-[active]:[--btn-icon:theme(colors.rose.200)] data-[hover]:[--btn-icon:theme(colors.rose.200)]",
         ],
       },
-      defaultVariants: {
-        variant: "solid",
-        size: "default",
-        colors: "dark/zinc",
-      },
     },
+    defaultVariants: {
+      color: "dark/zinc",
+      variant: "solid",
+      size: "default",
+    },
+    compoundVariants: [
+      {
+        variant: "outline",
+        className: [
+          // Base
+          "border-zinc-950/10 text-zinc-950 data-[active]:bg-zinc-950/[2.5%] data-[hover]:bg-zinc-950/[2.5%]",
+
+          // Dark mode
+          "dark:border-white/15 dark:text-white dark:[--btn-bg:transparent] dark:data-[active]:bg-white/5 dark:data-[hover]:bg-white/5",
+        ],
+      },
+      {
+        variant: "plain",
+        className: [
+          // Base
+          "border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5",
+
+          // Dark mode
+          "dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10",
+        ],
+      },
+    ],
   },
 );
 
@@ -209,10 +225,10 @@ export type ButtonProps = VariantProps<typeof buttonVariants> & {
 } & (HeadlessButtonProps | React.ComponentPropsWithoutRef<typeof Link>);
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(
-  ({ className, variant, size, colors, ...props }, ref) => {
+  ({ className, variant, size, color, ...props }, ref) => {
     return "href" in props ? (
       <Link
-        className={cn(buttonVariants({ variant, size, colors, className }))}
+        className={cn(buttonVariants({ variant, size, color, className }))}
         ref={ref as React.Ref<HTMLAnchorElement>}
         {...props}
       >
@@ -220,7 +236,10 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(
       </Link>
     ) : (
       <HeadlessButton
-        className={cn(buttonVariants({ variant, size, colors, className }))}
+        className={cn(
+          buttonVariants({ variant, size, color, className }),
+          "cursor-default",
+        )}
         ref={ref}
         {...props}
       >
